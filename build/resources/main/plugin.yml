@@ -1,0 +1,15 @@
+name: LuckUtils
+version: '8.5'
+main: de.thebjoredcraft.luckutils.LuckUtils
+api-version: '1.20'
+author: TheBjoRedCraft
+description: LuckUtils - A LuckPerms Extention
+softdepend:
+  - LuckPerms
+commands:
+  reload:
+    permission: lu.command.reload
+    aliases:
+      - rl
+  afk:
+    permission: lu.command.afk
