@@ -2,7 +2,6 @@ package de.thebjoredcraft.luckutils;
 
 import de.thebjoredcraft.luckutils.chat.ChatManager;
 import de.thebjoredcraft.luckutils.tab.TabListManager;
-import de.thebjoredcraft.luckutils.utils.AfkCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -48,28 +47,19 @@ public final class LuckUtils extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        currentVersion = getDescription().getVersion();
 
         getLogger().info(ChatColor.GREEN + "(LU) LuckUtils wird geladen!");
-        getCommand("afk").setExecutor(new AfkCommand());
-
         getServer().getPluginManager().registerEvents(new ChatManager(), this);
-
-        if (Bukkit.getPluginManager().isPluginEnabled("LuckPerms")) {
-            getLogger().info("(LU) LuckPerms Plugin gefunden!");
-        } else {
-            getLogger().warning("(LU) LuckPerms Plugin nicht gefunden! Plugin wird deaktiviert.");
-            getServer().getPluginManager().disablePlugin(this);
-        }
-        TabListManager.setupTablist();
-        // Plugin startup logic
         saveDefaultConfig();
+
+        TabListManager.setupTablist();
+
         if(getInstance().getConfig().getBoolean("UpdateTabList")){
             TabListManager.startTabupdate();
         }else{
             getLogger().info("(LU) §eAutoTablistUpdate is not enabled!");
         }
-        // Plugin startup logic
-        currentVersion = getDescription().getVersion();
 
         if (isUpdateAvailable()) {
             getLogger().warning("There is an new Version available!");
