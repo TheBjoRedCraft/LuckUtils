@@ -22,70 +22,69 @@ public class TabListManager {
             boolean isregistered = player.hasPermission(LuckUtils.getInstance().getConfig().getString("RegPermisson", ""));
             String registered = isregistered ? LuckUtils.getInstance().getConfig().getString("RegFormatOn", "") : LuckUtils.getInstance().getConfig().getString("RegFormatOff", "");
 
-            boolean isAfk = player.hasPermission(LuckUtils.getInstance().getConfig().getString("AfkPermisson", ""));
 
             boolean animated = LuckUtils.getInstance().getConfig().getBoolean("AnimatedTablist");
 
             if(prefix != null) {
                 if(animated) {
                     if (first) {
-                        String HeaderWithName = LuckUtils.getInstance().getConfig().getString("FirstTablistHeader", "").replace("%playername%", player.getDisplayName());
+                        String HeaderWithName = LuckUtils.getInstance().getConfig().getString("FirstTablistHeader", "").replace("%playername%", player.getName());
                         String HeaderWithPrefix = HeaderWithName.replace("%prefix%", prefix);
                         String HeaderWithRegistered = HeaderWithPrefix.replace("%registered%", registered);
 
                         player.sendPlayerListHeader(MiniMessage.miniMessage().deserialize(HeaderWithRegistered));
 
-                        String PlayerListNameWithName = LuckUtils.getInstance().getConfig().getString("FirstTablistPlayerName", "").replace("%playername%", player.getDisplayName());
+                        String PlayerListNameWithName = LuckUtils.getInstance().getConfig().getString("FirstTablistPlayerName", "").replace("%playername%", player.getName());
                         String PlayerListNameWithPrefix = PlayerListNameWithName.replace("%prefix%", prefix);
                         String PlayerListNameWithRegistered = PlayerListNameWithPrefix.replace("%registered%", registered);
 
                         player.playerListName(MiniMessage.miniMessage().deserialize(PlayerListNameWithRegistered));
 
-                        String FooterWithName = LuckUtils.getInstance().getConfig().getString("FirstTablistFooter", "").replace("%playername%", player.getDisplayName());
+                        String FooterWithName = LuckUtils.getInstance().getConfig().getString("FirstTablistFooter", "").replace("%playername%", player.getName());
                         String FooterWithPrefix = FooterWithName.replace("%prefix%", prefix);
                         String FooterWithRegistered = FooterWithPrefix.replace("%registered%", registered);
 
                         player.sendPlayerListFooter(MiniMessage.miniMessage().deserialize(FooterWithRegistered));
                     }else{
-                        String HeaderWithName = LuckUtils.getInstance().getConfig().getString("SecondTablistHeader", "").replace("%playername%", player.getDisplayName());
+                        String HeaderWithName = LuckUtils.getInstance().getConfig().getString("SecondTablistHeader", "").replace("%playername%", player.getName());
                         String HeaderWithPrefix = HeaderWithName.replace("%prefix%", prefix);
                         String HeaderWithRegistered = HeaderWithPrefix.replace("%registered%", registered);
 
                         player.sendPlayerListHeader(MiniMessage.miniMessage().deserialize(HeaderWithRegistered));
 
-                        String PlayerListNameWithName = LuckUtils.getInstance().getConfig().getString("SecondTablistPlayerName", "").replace("%playername%", player.getDisplayName());
+                        String PlayerListNameWithName = LuckUtils.getInstance().getConfig().getString("SecondTablistPlayerName", "").replace("%playername%", player.getName());
                         String PlayerListNameWithPrefix = PlayerListNameWithName.replace("%prefix%", prefix);
                         String PlayerListNameWithRegistered = PlayerListNameWithPrefix.replace("%registered%", registered);
 
                         player.playerListName(MiniMessage.miniMessage().deserialize(PlayerListNameWithRegistered));
 
-                        String FooterWithName = LuckUtils.getInstance().getConfig().getString("SecondTablistFooter", "").replace("%playername%", player.getDisplayName());
+                        String FooterWithName = LuckUtils.getInstance().getConfig().getString("SecondTablistFooter", "").replace("%playername%", player.getName());
                         String FooterWithPrefix = FooterWithName.replace("%prefix%", prefix);
                         String FooterWithRegistered = FooterWithPrefix.replace("%registered%", registered);
 
                         player.sendPlayerListFooter(MiniMessage.miniMessage().deserialize(FooterWithRegistered));
                     }
                 }else{
-                    String HeaderWithName = LuckUtils.getInstance().getConfig().getString("FirstTablistHeader", "").replace("%playername%", player.getDisplayName());
+                    String HeaderWithName = LuckUtils.getInstance().getConfig().getString("FirstTablistHeader", "").replace("%playername%", player.getName());
                     String HeaderWithPrefix = HeaderWithName.replace("%prefix%", prefix);
                     String HeaderWithRegistered = HeaderWithPrefix.replace("%registered%", registered);
 
                     player.sendPlayerListHeader(MiniMessage.miniMessage().deserialize(HeaderWithRegistered));
 
-                    String PlayerListNameWithName = LuckUtils.getInstance().getConfig().getString("FirstTablistPlayerName", "").replace("%playername%", player.getDisplayName());
+                    String PlayerListNameWithName = LuckUtils.getInstance().getConfig().getString("FirstTablistPlayerName", "").replace("%playername%", player.getName());
                     String PlayerListNameWithPrefix = PlayerListNameWithName.replace("%prefix%", prefix);
                     String PlayerListNameWithRegistered = PlayerListNameWithPrefix.replace("%registered%", registered);
 
                     player.playerListName(MiniMessage.miniMessage().deserialize(PlayerListNameWithRegistered));
 
-                    String FooterWithName = LuckUtils.getInstance().getConfig().getString("FirstTablistFooter", "").replace("%playername%", player.getDisplayName());
+                    String FooterWithName = LuckUtils.getInstance().getConfig().getString("FirstTablistFooter", "").replace("%playername%", player.getName());
                     String FooterWithPrefix = FooterWithName.replace("%prefix%", prefix);
                     String FooterWithRegistered = FooterWithPrefix.replace("%registered%", registered);
 
                     player.sendPlayerListFooter(MiniMessage.miniMessage().deserialize(FooterWithRegistered));
                 }
             }else{
-                Bukkit.getConsoleSender().sendMessage("[LuckUtils] Der Prefix ist null, bitte erstelle eine LuckPerms-Gruppe mit Prefix um LuckUtls benutzten zu können! " + player.getName());
+                Bukkit.getConsoleSender().sendMessage("[LuckUtils] Der Prefix der LuckPerms - Gruppe von "+ player.getName() +" exestiert nicht, bitte erstelle eine LuckPerms-Gruppe mit Prefix um LuckUtils benutzten zu können!");
             }
         }
     }

@@ -23,8 +23,6 @@ public class ChatManager implements Listener {
             boolean isregistered = player.hasPermission(LuckUtils.getInstance().getConfig().getString("Permisson", ""));
             String registered = isregistered ? LuckUtils.getInstance().getConfig().getString("RegFormatOn", "") : LuckUtils.getInstance().getConfig().getString("RegFormatOff", "");
 
-            boolean isAfk = player.hasPermission(LuckUtils.getInstance().getConfig().getString("AfkPermisson", ""));
-            String afk = isAfk ? LuckUtils.getInstance().getConfig().getString("TabFormaton", "") : LuckUtils.getInstance().getConfig().getString("TabFormatoff", "");
 
 
             String ChatFormat = LuckUtils.getInstance().getConfig().getString("ChatFormat", "").replace("%playername%", player.getName());
@@ -36,9 +34,8 @@ public class ChatManager implements Listener {
 
             String ChatFormat4 = ChatFormat3.replace("%registered%", registered);
 
-            String ChatFormat5 = ChatFormat4.replace("%afk%", afk);
 
-            Bukkit.broadcast(MiniMessage.miniMessage().deserialize(ChatFormat5));
+            Bukkit.broadcast(MiniMessage.miniMessage().deserialize(ChatFormat4));
         }else{
             player.sendMessage("[LuckUtils] Der Prefix ist null, bitte erstelle eine LuckPerms-Gruppe mit Prefix um LuckUtils benutzten zu können!");
         }

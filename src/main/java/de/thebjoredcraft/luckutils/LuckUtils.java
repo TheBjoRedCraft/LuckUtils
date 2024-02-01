@@ -2,6 +2,7 @@ package de.thebjoredcraft.luckutils;
 
 import de.thebjoredcraft.luckutils.chat.ChatManager;
 import de.thebjoredcraft.luckutils.tab.TabListManager;
+import de.thebjoredcraft.luckutils.utils.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -47,6 +48,9 @@ public final class LuckUtils extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
+        Metrics metrics = new Metrics(this, RESOURCE_ID);
+
         currentVersion = getDescription().getVersion();
 
         getLogger().info(ChatColor.GREEN + "(LU) LuckUtils wird geladen!");

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/LuckUtils.main.iml" filepath="$PROJECT_DIR$/.idea/modules/LuckUtils.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/de.thebjoredcraft.LuckUtils.main.iml" filepath="$PROJECT_DIR$/.idea/modules/de.thebjoredcraft.LuckUtils.main.iml" />
     </modules>
   </component>
 </project>
