@@ -9,7 +9,6 @@
 #: "[WARN] LuckUtils | "
 #InfoLuckUtils: "[INFO] LuckUtils | "
 
-default-group: "009default" # - you have to create these group
 
 #  PLAYERLIST - TABLIST ----------------------------------------------
 AnimatedTablist: true
