@@ -2,20 +2,32 @@ package de.thebjoredcraft.luckutils.tab;
 
 import de.thebjoredcraft.luckutils.LuckUtils;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.model.group.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 
 public class TabListManager {
     public static Boolean first;
-    public static void setupTablist(){
+    private static Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+
+    public static void setupTablist() {
+        createGroupTeams();
         first = true;
+
     }
-    public static void updateTablist(){
-        for (Player player : Bukkit.getOnlinePlayers()){
+
+    public static void updateTablist() {
+        assignPlayersToTeams();
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+
             String prefix = LuckPermsProvider.get().getPlayerAdapter(Player.class).getUser(player).getCachedData().getMetaData().getPrefix();
             int ping = player.getPing();
 
@@ -25,8 +37,8 @@ public class TabListManager {
 
             boolean animated = LuckUtils.getInstance().getConfig().getBoolean("AnimatedTablist");
 
-            if(prefix != null) {
-                if(animated) {
+            if (prefix != null) {
+                if (animated) {
                     if (first) {
                         String HeaderWithName = LuckUtils.getInstance().getConfig().getString("FirstTablistHeader", "").replace("%playername%", player.getName());
                         String HeaderWithPrefix = HeaderWithName.replace("%prefix%", prefix);
@@ -45,7 +57,7 @@ public class TabListManager {
                         String FooterWithRegistered = FooterWithPrefix.replace("%registered%", registered);
 
                         player.sendPlayerListFooter(MiniMessage.miniMessage().deserialize(FooterWithRegistered));
-                    }else{
+                    } else {
                         String HeaderWithName = LuckUtils.getInstance().getConfig().getString("SecondTablistHeader", "").replace("%playername%", player.getName());
                         String HeaderWithPrefix = HeaderWithName.replace("%prefix%", prefix);
                         String HeaderWithRegistered = HeaderWithPrefix.replace("%registered%", registered);
@@ -64,7 +76,7 @@ public class TabListManager {
 
                         player.sendPlayerListFooter(MiniMessage.miniMessage().deserialize(FooterWithRegistered));
                     }
-                }else{
+                } else {
                     String HeaderWithName = LuckUtils.getInstance().getConfig().getString("FirstTablistHeader", "").replace("%playername%", player.getName());
                     String HeaderWithPrefix = HeaderWithName.replace("%prefix%", prefix);
                     String HeaderWithRegistered = HeaderWithPrefix.replace("%registered%", registered);
@@ -83,11 +95,12 @@ public class TabListManager {
 
                     player.sendPlayerListFooter(MiniMessage.miniMessage().deserialize(FooterWithRegistered));
                 }
-            }else{
-                Bukkit.getConsoleSender().sendMessage("[LuckUtils] Der Prefix der LuckPerms - Gruppe von "+ player.getName() +" exestiert nicht, bitte erstelle eine LuckPerms-Gruppe mit Prefix um LuckUtils benutzten zu können!");
+            } else {
+                Bukkit.getConsoleSender().sendMessage("[LuckUtils] Der Prefix der LuckPerms - Gruppe von " + player.getName() + " exestiert nicht, bitte erstelle eine LuckPerms-Gruppe mit Prefix um LuckUtils benutzten zu können!");
             }
         }
     }
+
     private static BukkitRunnable runnable;
     private static BukkitRunnable runnableOther;
 
@@ -109,17 +122,78 @@ public class TabListManager {
                 }
             };
             BukkitTask bukkitTaskOther = runnableOther.runTaskTimer(LuckUtils.getInstance(), 0, LuckUtils.getInstance().getConfig().getInt("SwitchTabList"));
-        }catch (NumberFormatException exception){
+        } catch (NumberFormatException exception) {
             Bukkit.getConsoleSender().sendMessage(exception.getMessage());
         }
     }
-    public static void stopTabListUpdate(){
+
+    public static void stopTabListUpdate() {
         try {
-            if(!runnable.isCancelled()) {
+            if (!runnable.isCancelled()) {
                 runnable.cancel();
             }
-        } catch(Exception exception) {
+        } catch (Exception exception) {
             Bukkit.getConsoleSender().sendMessage("ERROR in stopTabUpdate");
+        }
+    }
+
+    private static void createGroupTeams() {
+        LuckPerms luckPerms = LuckPermsProvider.get();
+        if (luckPerms != null) {
+            for (Group group : luckPerms.getGroupManager().getLoadedGroups()) {
+                String groupName = group.getDisplayName();
+                if (group.getDisplayName() != null) {
+                    Team team = scoreboard.getTeam(groupName);
+                    if (team == null) {
+                        team = scoreboard.registerNewTeam(groupName);
+                        team.setDisplayName(groupName);
+                    }
+                }else{
+                    Bukkit.getConsoleSender().sendMessage("[LuckUtils] Der Displayname aller LuckPerms - Gruppen muss exestieren!");
+                }
+            }
+        } else {
+            Bukkit.getConsoleSender().sendMessage("[LuckUtils] LuckPerms not found, unable to create group teams.");
+        }
+    }
+    private static void createGroupTeam(String groupName) {
+        LuckPerms luckPerms = LuckPermsProvider.get();
+        if (luckPerms != null) {
+            Group group = luckPerms.getGroupManager().getGroup(groupName);
+            if (group != null) {
+                Team team = scoreboard.getTeam(groupName);
+                if (team == null) {
+                    team = scoreboard.registerNewTeam(groupName);
+                    team.setDisplayName(groupName);
+                }
+            } else {
+                Bukkit.getConsoleSender().sendMessage("[LuckUtils] LuckPerms group not found: " + groupName);
+            }
+        } else {
+            Bukkit.getConsoleSender().sendMessage("[LuckUtils] LuckPerms not found, unable to create group team.");
+        }
+    }
+
+    private static void assignPlayersToTeams() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            String groupName = LuckPermsProvider.get().getPlayerAdapter(Player.class).getUser(player).getPrimaryGroup();
+            Group group = LuckPermsProvider.get().getGroupManager().getGroup(groupName);
+            if(group.getDisplayName() != null) {
+                Team team = scoreboard.getTeam(group.getDisplayName());
+                if (team != null) {
+                    Team teamOld = scoreboard.getPlayerTeam(player);
+                    if (teamOld != null) {
+                        teamOld.removePlayer(player);
+                    }
+                    team.addPlayer(player);
+                } else {
+                    Bukkit.getConsoleSender().sendMessage("[LuckUtils] Team " + group.getDisplayName() + " does not exist, creating....");
+                    createGroupTeam(group.getDisplayName());
+
+                }
+            }else{
+                Bukkit.getConsoleSender().sendMessage("[LuckUtils] Der Displayname der LuckPerms - Gruppe von " + player.getName() + " exestiert nicht, bitte erstelle eine LuckPerms-Gruppe mit Displayname um LuckUtils benutzten zu können!");
+            }
         }
     }
 }
