@@ -12,7 +12,7 @@
 # go to Groups/Gruppen and press the plus (+)
 ![Step one](images/4.png)
 # Next fill in the informations, i do it for an "admin" group
-# Anzeigename/Displayname must have a number before the name
+# Anzeigename/Displayname must have a number before the name (for sorting the tablist)
 # Prefix can contains gradients, hexcolors.... (see Kyori Adventure API)
 # Warning every gap except "suffix" have to be filled in.
 
