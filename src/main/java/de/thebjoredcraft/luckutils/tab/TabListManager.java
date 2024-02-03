@@ -96,7 +96,8 @@ public class TabListManager {
                     player.sendPlayerListFooter(MiniMessage.miniMessage().deserialize(FooterWithRegistered));
                 }
             } else {
-                Bukkit.getConsoleSender().sendMessage("[LuckUtils] Der Prefix der LuckPerms - Gruppe von " + player.getName() + " exestiert nicht, bitte erstelle eine LuckPerms-Gruppe mit Prefix um LuckUtils benutzten zu können!");
+                Bukkit.getConsoleSender().sendMessage("[LuckUtils] Der Prefix der LuckPerms - Gruppe von " + player.getName() + " exestiert nicht, bitte erstelle eine LuckPerms-Gruppe mit Prefix um LuckUtils benutzten zu können! Disabling...");
+                LuckUtils.getInstance().getServer().getPluginManager().disablePlugin(LuckUtils.getInstance());
             }
         }
     }
@@ -170,14 +171,15 @@ public class TabListManager {
                 Bukkit.getConsoleSender().sendMessage("[LuckUtils] LuckPerms group not found: " + groupName);
             }
         } else {
-            Bukkit.getConsoleSender().sendMessage("[LuckUtils] LuckPerms not found, unable to create group team.");
+            Bukkit.getConsoleSender().sendMessage("[LuckUtils] LuckPerms not found, unable to create group team. Disabling...");
+            LuckUtils.getInstance().getServer().getPluginManager().disablePlugin(LuckUtils.getInstance());
         }
     }
 
     private static void assignPlayersToTeams() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            String groupName = LuckPermsProvider.get().getPlayerAdapter(Player.class).getUser(player).getPrimaryGroup();
-            Group group = LuckPermsProvider.get().getGroupManager().getGroup(groupName);
+            Group group = LuckPermsProvider.get().getGroupManager().getGroup(LuckPermsProvider.get().getPlayerAdapter(Player.class).getUser(player).getPrimaryGroup());
+
             if(group.getDisplayName() != null) {
                 Team team = scoreboard.getTeam(group.getDisplayName());
                 if (team != null) {
@@ -192,7 +194,8 @@ public class TabListManager {
 
                 }
             }else{
-                Bukkit.getConsoleSender().sendMessage("[LuckUtils] Der Displayname der LuckPerms - Gruppe von " + player.getName() + " exestiert nicht, bitte erstelle eine LuckPerms-Gruppe mit Displayname um LuckUtils benutzten zu können!");
+                Bukkit.getConsoleSender().sendMessage("[LuckUtils] Der Displayname der LuckPerms - Gruppe von " + player.getName() + " exestiert nicht, bitte erstelle eine LuckPerms-Gruppe mit Displayname um LuckUtils benutzten zu können! Disabling....");
+                LuckUtils.getInstance().getServer().getPluginManager().disablePlugin(LuckUtils.getInstance());
             }
         }
     }

@@ -7,7 +7,5 @@ description: LuckUtils - A LuckPerms Extention
 depend:
   - LuckPerms
 commands:
-  reload:
-    permission: lu.command.reload
-    aliases:
-      - rl
+  luckutils:
+    permission: lu.command.luckutils

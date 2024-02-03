@@ -48,16 +48,14 @@ public final class LuckUtils extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
-        Metrics metrics = new Metrics(this, RESOURCE_ID);
-
+        TabListManager.setupTablist();
         currentVersion = getDescription().getVersion();
 
-        getLogger().info(ChatColor.GREEN + "(LU) LuckUtils wird geladen!");
         getServer().getPluginManager().registerEvents(new ChatManager(), this);
         saveDefaultConfig();
 
-        TabListManager.setupTablist();
+
+        getLogger().info(ChatColor.GREEN + "(LU) LuckUtils wird geladen!");
 
         if(getInstance().getConfig().getBoolean("UpdateTabList")){
             TabListManager.startTabupdate();
@@ -70,6 +68,7 @@ public final class LuckUtils extends JavaPlugin {
         } else {
             getLogger().info("The Plugin is up-to-date");
         }
+        Metrics metrics = new Metrics(this, RESOURCE_ID);
 
     }
 
@@ -79,13 +78,12 @@ public final class LuckUtils extends JavaPlugin {
             TabListManager.stopTabListUpdate();
         }
         getLogger().info(ChatColor.RED + "(LU) LuckUtils wird gestoppt!");
-        getLogger().info(ChatColor.GREEN + "(LU) Plugin wird gesaved!");
         // Plugin shutdown logic
     }
 
-    public static void setPermission(Player player, String permission, Boolean trueorfalse) {
+    public static void setPermission(Player player, String permission, Boolean arg) {
         PermissionAttachment attachment = player.addAttachment(LuckUtils.getInstance());
-        attachment.setPermission(permission, trueorfalse);
+        attachment.setPermission(permission, arg);
 
         player.recalculatePermissions();
     }
