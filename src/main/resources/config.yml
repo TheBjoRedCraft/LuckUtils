@@ -1,18 +1,21 @@
 #LU CONFIG
-#FOR COSTUM PLUGINS, DM ME ON DISCORD
 #THIS PLUGIN IS MADE BY THEBJOREDCRAFT
-#SUPPORT ON DISCORD: https://discord.gg/tEx5B2pJ
-#YOU CAN USE COLORCODES WITH MiniMessage! https://webui.advntr.dev/
+#YOU CAN USE COLORCODES WITH MiniMessage! - https://webui.advntr.dev/
+
+Design: "STANDARD" # -
+ServerName: "LuckUtils Server"
+
 
 #  PLAYERLIST - TABLIST ----------------------------------------------
+LuckUtilsTablistEnabled: true
 AnimatedTablist: true
 
 FirstTablistHeader: "<color:#78ffb5>DEIN NETWORK"
-FirstTablistPlayerName: "%prefix% <dark_gray>|</dark_gray> %playername% %registered%"
+FirstTablistPlayerName: "%prefix% <dark_gray>|</dark_gray> %player% %registered%"
 FirstTablistFooter: "<color:#ff0004>LuckUtils v7.0 - by TheBjoRedCraft"
 
 SecondTablistHeader: "<color:#78ffb5>DEIN NETWORK"
-SecondTablistPlayerName: "%prefix% <dark_gray>|</dark_gray> %playername% %registered%"
+SecondTablistPlayerName: "%prefix% <dark_gray>|</dark_gray> %player% %registered%"
 SecondTablistFooter: "<color:#ff0004>Deine Infos!"
 
 SwitchTabList: 600
@@ -24,15 +27,22 @@ Repeat: 20
 # CHATFORMAT --------------------------------------------------------
 
 #PLACEHOLDER:
-#%luckperms_prefix% = Gives the Prefix of the Player
-#%playername% = Gives the Playername of the Player
+#%prefix% = Gives the Prefix of the Player
+#%player% = Gives the Playername of the Player
 #%message% = Returns the Message
+LuckUtilsChatEnabled: true
 
-ChatFormat: "%luckperms_prefix% <dark_gray>|</dark_gray> %playername% <dark_gray>>></dark_gray> %message%"
+ChatFormat: "%prefix% <dark_gray>|</dark_gray> %player% <dark_gray>>></dark_gray> %message%"
 
 # Registered --------------------------------------------------------
 
 RegPermisson: "lu.registered"
 RegFormatOn: "<green><bold>✓"
 RegFormatOff: ""
+
+JoinMessage: ""
+QuitMessage: ""
+
+
+
 

@@ -1,6 +1,5 @@
 package de.thebjoredcraft.luckutils;
 
-import de.thebjoredcraft.luckutils.tab.TabListManager;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,11 +19,7 @@ public class LuckUtilsCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if(sender instanceof Player player){
-            if(args.length == 1 && args[0].equalsIgnoreCase("update")){
-                TabListManager.updateTablist();
-
-                player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>Die Tablist wurde geupdated - The Tablist has been updated"));
-            }else if(args.length == 1 && args[0].equalsIgnoreCase("disable")){
+            if(args.length == 1 && args[0].equalsIgnoreCase("disable")){
                 player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>LuckUtils wird disabled... - LuckUtils will be disabled...."));
                 player.sendMessage(MiniMessage.miniMessage().deserialize("<color:#3b92d1>disabling...."));
 

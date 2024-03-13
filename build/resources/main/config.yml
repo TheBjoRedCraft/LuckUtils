@@ -1,25 +1,19 @@
 #LU CONFIG
 #FOR COSTUM PLUGINS, DM ME ON DISCORD
 #THIS PLUGIN IS MADE BY THEBJOREDCRAFT
-#SUPPORT ON DISCORD: https://discord.gg/tEx5B2pJ
 #YOU CAN USE COLORCODES WITH MiniMessage! https://webui.advntr.dev/
 
-#MainPrefix: "LuckUtils | "
-#ErrorPrefix: "[ERROR] LuckUtils | "
-#: "[WARN] LuckUtils | "
-#InfoLuckUtils: "[INFO] LuckUtils | "
-
-
 #  PLAYERLIST - TABLIST ----------------------------------------------
+
 AnimatedTablist: true
 
-FirstTablistHeader: "<color:#78ffb5>DEIN NETWORK</color>"
+FirstTablistHeader: "<color:#78ffb5>DEIN NETWORK"
 FirstTablistPlayerName: "%prefix% <dark_gray>|</dark_gray> %playername% %registered%"
-FirstTablistFooter: "<color:#ff0004>LuckUtils v7.0 - by TheBjoRedCraft</color>"
+FirstTablistFooter: "<color:#ff0004>LuckUtils v7.0 - by TheBjoRedCraft"
 
-SecondTablistHeader: "<color:#78ffb5>DEIN NETWORK</color>"
+SecondTablistHeader: "<color:#78ffb5>DEIN NETWORK"
 SecondTablistPlayerName: "%prefix% <dark_gray>|</dark_gray> %playername% %registered%"
-SecondTablistFooter: "<color:#ff0004>Deine Infos!</color>"
+SecondTablistFooter: "<color:#ff0004>Deine Infos!"
 
 SwitchTabList: 600
 
@@ -41,4 +35,6 @@ ChatFormat: "%luckperms_prefix% <dark_gray>|</dark_gray> %playername% <dark_gray
 RegPermisson: "lu.registered"
 RegFormatOn: "<green><bold>✓"
 RegFormatOff: ""
+
+AbovePlayerName: "%prefix% <dark_gray>|</dark_gray> %playername% %registered%"
 

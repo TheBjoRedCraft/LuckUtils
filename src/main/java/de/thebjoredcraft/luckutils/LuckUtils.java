@@ -29,23 +29,6 @@ public final class LuckUtils extends JavaPlugin {
     private static final int RESOURCE_ID = 112818;
     public static String currentVersion;
 
-    public static boolean isUpdateAvailable() {
-        try {
-            URL url = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + RESOURCE_ID);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String apiVersion = reader.readLine();
-            reader.close();
-
-            return !currentVersion.equals(apiVersion);
-        } catch (IOException e) {
-            LuckUtils.getInstance().getLogger().warning("Fehler beim Überprüfen auf Updates: " + e.getMessage());
-            return false;
-        }
-    }
-
     @Override
     public void onEnable() {
         TabListManager.setupTablist();
@@ -56,11 +39,12 @@ public final class LuckUtils extends JavaPlugin {
 
 
         getLogger().info(ChatColor.GREEN + "(LU) LuckUtils wird geladen!");
-
-        if(getInstance().getConfig().getBoolean("UpdateTabList")){
-            TabListManager.startTabupdate();
-        }else{
-            getLogger().info("(LU) §eAutoTablistUpdate is not enabled!");
+        if(getInstance().getConfig().getBoolean("LuckUtilsTablistEnabled")) {
+            if (getInstance().getConfig().getBoolean("UpdateTabList")) {
+                TabListManager.startTabupdate();
+            } else {
+                getLogger().info("(LU) §eAutoTablistUpdate is not enabled!");
+            }
         }
 
         if (isUpdateAvailable()) {
@@ -81,10 +65,20 @@ public final class LuckUtils extends JavaPlugin {
         // Plugin shutdown logic
     }
 
-    public static void setPermission(Player player, String permission, Boolean arg) {
-        PermissionAttachment attachment = player.addAttachment(LuckUtils.getInstance());
-        attachment.setPermission(permission, arg);
+    public static boolean isUpdateAvailable() {
+        try {
+            URL url = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + RESOURCE_ID);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
 
-        player.recalculatePermissions();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String apiVersion = reader.readLine();
+            reader.close();
+
+            return !currentVersion.equals(apiVersion);
+        } catch (IOException e) {
+            LuckUtils.getInstance().getLogger().warning("Fehler beim Überprüfen auf Updates: " + e.getMessage());
+            return false;
+        }
     }
 }
