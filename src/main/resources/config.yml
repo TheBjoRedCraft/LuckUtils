@@ -1,48 +1,44 @@
-#LU CONFIG
-#THIS PLUGIN IS MADE BY THEBJOREDCRAFT
-#YOU CAN USE COLORCODES WITH MiniMessage! - https://webui.advntr.dev/
+#LuckUtils Configuration File (config.yml)
+#This is a Minecraft Plugin by TheBjoRedCraft
+#This is not an official LuckPerms Extension - LuckPerms: https://luckperms.net/
+#!!! You cannot use Vanilla Color-Codes! Please use MiniMessage https://webui.advntr.dev/ !!!
+#Placeholder: %player% %prefix% %ping% %registered% - Chat: %message%
 
-Design: "STANDARD" # -
-ServerName: "LuckUtils Server"
+#------------------------[Main]------------------------#
+ServerName: ""
 
-
-#  PLAYERLIST - TABLIST ----------------------------------------------
+#----------------------[Tablist]-----------------------#
 LuckUtilsTablistEnabled: true
+UpdateTabList: true
+
+Design: ""
+
+TablistHeader: "<color:#78ffb5>DEIN NETWORK"
+TablistName: "%prefix% <dark_gray>|</dark_gray> %player% %registered%"
+TablistFooter: "<color:#ff0004>LuckUtils v7.0 - by TheBjoRedCraft"
+
 AnimatedTablist: true
 
-FirstTablistHeader: "<color:#78ffb5>DEIN NETWORK"
-FirstTablistPlayerName: "%prefix% <dark_gray>|</dark_gray> %player% %registered%"
-FirstTablistFooter: "<color:#ff0004>LuckUtils v7.0 - by TheBjoRedCraft"
+AnimatedTablistHeader: "<color:#78ffb5>DEIN NETWORK"
+AnimatedTablistName: "%prefix% <dark_gray>|</dark_gray> %player% %registered%"
+AnimatedTablistFooter: "<color:#ff0004>LuckUtils v7.0 - by TheBjoRedCraft"
 
-SecondTablistHeader: "<color:#78ffb5>DEIN NETWORK"
-SecondTablistPlayerName: "%prefix% <dark_gray>|</dark_gray> %player% %registered%"
-SecondTablistFooter: "<color:#ff0004>Deine Infos!"
+SwitchTabList: 600 # 600 Ticks = 30 seconds
+Repeat: 20 # 20 Ticks = every second
 
-SwitchTabList: 600
-
-UpdateTabList: true
-#IN TICKS - 20 Ticks = 1 sec
-Repeat: 20
-
-# CHATFORMAT --------------------------------------------------------
-
-#PLACEHOLDER:
-#%prefix% = Gives the Prefix of the Player
-#%player% = Gives the Playername of the Player
-#%message% = Returns the Message
+#------------------------[Chat]------------------------#
 LuckUtilsChatEnabled: true
-
 ChatFormat: "%prefix% <dark_gray>|</dark_gray> %player% <dark_gray>>></dark_gray> %message%"
 
-# Registered --------------------------------------------------------
+#---------------------[Registered]---------------------#
+RegisteredPermisson: "lu.registered"
+RegisteredFormatOn: "<green><bold>✓"
+RegisteredFormatOff: ""
 
-RegPermisson: "lu.registered"
-RegFormatOn: "<green><bold>✓"
-RegFormatOff: ""
+#------------------------[Join]------------------------#
+JoinMessageEnabled: true
+JoinMessage: "<dark_gray>[<green>+<dark_gray>] <color:#3b92d1>%player%"
 
-JoinMessage: ""
-QuitMessage: ""
-
-
-
-
+#-----------------------[Leave]------------------------#
+QuitMessageEnabled: true
+QuitMessage: "<dark_gray>[<red>-<dark_gray>] <color:#3b92d1>%player%"

@@ -1,0 +1,48 @@
+#LU CONFIG
+#THIS PLUGIN IS MADE BY THEBJOREDCRAFT
+#YOU CAN USE COLORCODES WITH MiniMessage! - https://webui.advntr.dev/
+
+Design: "STANDARD" # -
+ServerName: "LuckUtils Server"
+
+
+#  PLAYERLIST - TABLIST ----------------------------------------------
+LuckUtilsTablistEnabled: true
+AnimatedTablist: true
+
+FirstTablistHeader: "<color:#78ffb5>DEIN NETWORK"
+FirstTablistPlayerName: "%prefix% <dark_gray>|</dark_gray> %player% %registered%"
+FirstTablistFooter: "<color:#ff0004>LuckUtils v7.0 - by TheBjoRedCraft"
+
+SecondTablistHeader: "<color:#78ffb5>DEIN NETWORK"
+SecondTablistPlayerName: "%prefix% <dark_gray>|</dark_gray> %player% %registered%"
+SecondTablistFooter: "<color:#ff0004>Deine Infos!"
+
+SwitchTabList: 600
+
+UpdateTabList: true
+#IN TICKS - 20 Ticks = 1 sec
+Repeat: 20
+
+# CHATFORMAT --------------------------------------------------------
+
+#PLACEHOLDER:
+#%prefix% = Gives the Prefix of the Player
+#%player% = Gives the Playername of the Player
+#%message% = Returns the Message
+LuckUtilsChatEnabled: true
+
+ChatFormat: "%prefix% <dark_gray>|</dark_gray> %player% <dark_gray>>></dark_gray> %message%"
+
+# Registered --------------------------------------------------------
+
+RegPermisson: "lu.registered"
+RegFormatOn: "<green><bold>✓"
+RegFormatOff: ""
+
+JoinMessage: ""
+QuitMessage: ""
+
+
+
+
