@@ -5,23 +5,23 @@
 #Placeholder: %player% %prefix% %ping% %registered% - Chat: %message%
 
 #------------------------[Main]------------------------#
-ServerName: ""
+ServerName: "<red>Mein Server</red>"
 
 #----------------------[Tablist]-----------------------#
 LuckUtilsTablistEnabled: true
 UpdateTabList: true
 
-Design: ""
+Design: "STANDARD" # Designs: STANDARD, MODERN, ONLY_NAME (Minecraft Style), CLEAN, CUSTOM (Custom = The content below)
 
-TablistHeader: "<color:#78ffb5>DEIN NETWORK"
+TablistHeader: "<color:#78ffb5>DEIN SERVER"
 TablistName: "%prefix% <dark_gray>|</dark_gray> %player% %registered%"
-TablistFooter: "<color:#ff0004>LuckUtils v7.0 - by TheBjoRedCraft"
+TablistFooter: "<color:#ff0004>LuckUtils v11.0 - by TheBjoRedCraft"
 
 AnimatedTablist: true
 
-AnimatedTablistHeader: "<color:#78ffb5>DEIN NETWORK"
+AnimatedTablistHeader: "<color:#78ffb5>DEIN SERVER"
 AnimatedTablistName: "%prefix% <dark_gray>|</dark_gray> %player% %registered%"
-AnimatedTablistFooter: "<color:#ff0004>LuckUtils v7.0 - by TheBjoRedCraft"
+AnimatedTablistFooter: "<color:#ff0004>LuckUtils v11.0 - by TheBjoRedCraft"
 
 SwitchTabList: 600 # 600 Ticks = 30 seconds
 Repeat: 20 # 20 Ticks = every second

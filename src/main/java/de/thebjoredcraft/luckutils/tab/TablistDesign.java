@@ -3,13 +3,11 @@ package de.thebjoredcraft.luckutils.tab;
 import de.thebjoredcraft.luckutils.LuckUtils;
 
 public enum TablistDesign {
-    MODERN("", "", "","", "", ""),
-    RUSTICALLY("", "", "","", "", ""),
-    CLEAN("", "", "","", "", ""),
-    ONLY_NAME("", "", "","", "", ""),
-    STANDARD("", "", "","", "", ""),
-    CUSTOM(LuckUtils.getInstance().getConfig().getString("", "TablistHeader"), LuckUtils.getInstance().getConfig().getString("", "TablistFooter"), LuckUtils.getInstance().getConfig().getString("", "AnimatedTablistName"),
-            LuckUtils.getInstance().getConfig().getString("", LuckUtils.getInstance().getConfig().getString("", "AnimatedTablistHeader")), LuckUtils.getInstance().getConfig().getString("", "AnimatedTablistFooter"), LuckUtils.getInstance().getConfig().getString("", "AnimatedTablistName"));
+    MODERN("<color:#3b92d1>" + LuckUtils.getInstance().getConfig().getString("ServerName", ""), "<color:#40d1db>Dein Rang: <bold>%prefix%</bold>", "%prefix% <dark_gray>|</dark_gray> %player% %registered%","<color:#3b92d1>" + LuckUtils.getInstance().getConfig().getString("ServerName", ""), "<color:#40d1db>Dein Ping:<bold> %ping%</bold>", "%prefix% <dark_gray>|</dark_gray> %player% %registered%"),
+    CLEAN("<color:#3b92d1>" + LuckUtils.getInstance().getConfig().getString("ServerName", ""), "<color:#40d1db>Dein Rang: <bold>%prefix%</bold>", "%prefix% <dark_gray>|</dark_gray> %player%","<color:#3b92d1>" + LuckUtils.getInstance().getConfig().getString("ServerName", ""), "<color:#40d1db>Dein Ping:<bold> %ping%</bold>", "%prefix% <dark_gray>|</dark_gray> %player%"),
+    ONLY_NAME("", "", "%player%","", "", "%player%"),
+    STANDARD("<color:#3b92d1>" + LuckUtils.getInstance().getConfig().getString("ServerName", ""), "<color:#40d1db>LuckUtils v11", "%prefix% <dark_gray>|</dark_gray> %player% %registered%","<color:#3b92d1>" + LuckUtils.getInstance().getConfig().getString("ServerName", ""), "<color:#40d1db>LuckUtils v11", "%prefix% <dark_gray>|</dark_gray> %player% %registered%"),
+    CUSTOM(LuckUtils.getInstance().getConfig().getString("TablistHeader", ""), LuckUtils.getInstance().getConfig().getString("TablistFooter", ""), LuckUtils.getInstance().getConfig().getString("TablistName", ""), LuckUtils.getInstance().getConfig().getString("AnimatedTablistHeader", ""),LuckUtils.getInstance().getConfig().getString("AnimatedTablistFooter", ""), LuckUtils.getInstance().getConfig().getString("AnimatedTablistName", ""));
 
     public final String header;
     public final String footer;

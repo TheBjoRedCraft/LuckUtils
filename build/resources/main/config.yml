@@ -1,40 +1,44 @@
-#LU CONFIG
-#FOR COSTUM PLUGINS, DM ME ON DISCORD
-#THIS PLUGIN IS MADE BY THEBJOREDCRAFT
-#YOU CAN USE COLORCODES WITH MiniMessage! https://webui.advntr.dev/
+#LuckUtils Configuration File (config.yml)
+#This is a Minecraft Plugin by TheBjoRedCraft
+#This is not an official LuckPerms Extension - LuckPerms: https://luckperms.net/
+#!!! You cannot use Vanilla Color-Codes! Please use MiniMessage https://webui.advntr.dev/ !!!
+#Placeholder: %player% %prefix% %ping% %registered% - Chat: %message%
 
-#  PLAYERLIST - TABLIST ----------------------------------------------
+#------------------------[Main]------------------------#
+ServerName: "<red>Mein Server</red>"
+
+#----------------------[Tablist]-----------------------#
+LuckUtilsTablistEnabled: true
+UpdateTabList: true
+
+Design: "STANDARD" # Designs: STANDARD, MODERN, ONLY_NAME (Minecraft Style), CLEAN, CUSTOM (Custom = The content below)
+
+TablistHeader: "<color:#78ffb5>DEIN SERVER"
+TablistName: "%prefix% <dark_gray>|</dark_gray> %player% %registered%"
+TablistFooter: "<color:#ff0004>LuckUtils v11.0 - by TheBjoRedCraft"
 
 AnimatedTablist: true
 
-FirstTablistHeader: "<color:#78ffb5>DEIN NETWORK"
-FirstTablistPlayerName: "%prefix% <dark_gray>|</dark_gray> %playername% %registered%"
-FirstTablistFooter: "<color:#ff0004>LuckUtils v7.0 - by TheBjoRedCraft"
+AnimatedTablistHeader: "<color:#78ffb5>DEIN SERVER"
+AnimatedTablistName: "%prefix% <dark_gray>|</dark_gray> %player% %registered%"
+AnimatedTablistFooter: "<color:#ff0004>LuckUtils v11.0 - by TheBjoRedCraft"
 
-SecondTablistHeader: "<color:#78ffb5>DEIN NETWORK"
-SecondTablistPlayerName: "%prefix% <dark_gray>|</dark_gray> %playername% %registered%"
-SecondTablistFooter: "<color:#ff0004>Deine Infos!"
+SwitchTabList: 600 # 600 Ticks = 30 seconds
+Repeat: 20 # 20 Ticks = every second
 
-SwitchTabList: 600
+#------------------------[Chat]------------------------#
+LuckUtilsChatEnabled: true
+ChatFormat: "%prefix% <dark_gray>|</dark_gray> %player% <dark_gray>>></dark_gray> %message%"
 
-UpdateTabList: true
-#IN TICKS - 20 Ticks = 1 sec
-Repeat: 20
+#---------------------[Registered]---------------------#
+RegisteredPermisson: "lu.registered"
+RegisteredFormatOn: "<green><bold>✓"
+RegisteredFormatOff: ""
 
-# CHATFORMAT --------------------------------------------------------
+#------------------------[Join]------------------------#
+JoinMessageEnabled: true
+JoinMessage: "<dark_gray>[<green>+<dark_gray>] <color:#3b92d1>%player%"
 
-#PLACEHOLDER:
-#%luckperms_prefix% = Gives the Prefix of the Player
-#%playername% = Gives the Playername of the Player
-#%message% = Returns the Message
-
-ChatFormat: "%luckperms_prefix% <dark_gray>|</dark_gray> %playername% <dark_gray>>></dark_gray> %message%"
-
-# Registered --------------------------------------------------------
-
-RegPermisson: "lu.registered"
-RegFormatOn: "<green><bold>✓"
-RegFormatOff: ""
-
-AbovePlayerName: "%prefix% <dark_gray>|</dark_gray> %playername% %registered%"
-
+#-----------------------[Leave]------------------------#
+QuitMessageEnabled: true
+QuitMessage: "<dark_gray>[<red>-<dark_gray>] <color:#3b92d1>%player%"

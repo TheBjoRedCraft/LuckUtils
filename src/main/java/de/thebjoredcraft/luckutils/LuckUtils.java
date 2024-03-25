@@ -2,11 +2,9 @@ package de.thebjoredcraft.luckutils;
 
 import de.thebjoredcraft.luckutils.chat.ChatManager;
 import de.thebjoredcraft.luckutils.tab.TabListManager;
+import de.thebjoredcraft.luckutils.utils.EventManager;
 import de.thebjoredcraft.luckutils.utils.Metrics;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.BufferedReader;
@@ -35,6 +33,7 @@ public final class LuckUtils extends JavaPlugin {
         currentVersion = getDescription().getVersion();
 
         getServer().getPluginManager().registerEvents(new ChatManager(), this);
+        getServer().getPluginManager().registerEvents(new EventManager(), this);
         saveDefaultConfig();
 
 

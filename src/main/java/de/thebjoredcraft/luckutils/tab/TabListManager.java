@@ -31,17 +31,18 @@ public class TabListManager {
 
         String registered = isregistered ? LuckUtils.getInstance().getConfig().getString("RegisteredFormatOn", "") : LuckUtils.getInstance().getConfig().getString("RegisteredFormatOff", "");
         String prefix = LuckPermsProvider.get().getPlayerAdapter(Player.class).getUser(player).getCachedData().getMetaData().getPrefix();
+        String serverName = LuckUtils.getInstance().getConfig().getString("ServerName", "");
 
         assignPlayersToTeams();
 
         if(prefix != null) {
-            Component header = MiniMessage.miniMessage().deserialize(design.getHeader().replace("%player%", player.getDisplayName()).replace("%prefix%", prefix).replace("%ping%", String.valueOf(ping)).replace("%registered%", registered));
-            Component footer = MiniMessage.miniMessage().deserialize(design.getFooter().replace("%player%", player.getDisplayName()).replace("%prefix%", prefix).replace("%ping%", String.valueOf(ping)).replace("%registered%", registered));
-            Component name = MiniMessage.miniMessage().deserialize(design.getPName().replace("%player%", player.getDisplayName()).replace("%prefix%", prefix).replace("%ping%", String.valueOf(ping)).replace("%registered%", registered));
+            Component header = MiniMessage.miniMessage().deserialize(design.getHeader().replace("%player%", player.getDisplayName()).replace("%prefix%", prefix).replace("%ping%", String.valueOf(ping)).replace("%registered%", registered).replace("%servername%", serverName));
+            Component footer = MiniMessage.miniMessage().deserialize(design.getFooter().replace("%player%", player.getDisplayName()).replace("%prefix%", prefix).replace("%ping%", String.valueOf(ping)).replace("%registered%", registered).replace("%servername%", serverName));
+            Component name = MiniMessage.miniMessage().deserialize(design.getPName().replace("%player%", player.getDisplayName()).replace("%prefix%", prefix).replace("%ping%", String.valueOf(ping)).replace("%registered%", registered).replace("%servername%", serverName));
 
-            Component header2 = MiniMessage.miniMessage().deserialize(design.getHeader2().replace("%player%", player.getDisplayName()).replace("%prefix%", prefix).replace("%ping%", String.valueOf(ping)).replace("%registered%", registered));
-            Component footer2 = MiniMessage.miniMessage().deserialize(design.getFooter2().replace("%player%", player.getDisplayName()).replace("%prefix%", prefix).replace("%ping%", String.valueOf(ping)).replace("%registered%", registered));
-            Component name2 = MiniMessage.miniMessage().deserialize(design.getPName2().replace("%player%", player.getDisplayName()).replace("%prefix%", prefix).replace("%ping%", String.valueOf(ping)).replace("%registered%", registered));
+            Component header2 = MiniMessage.miniMessage().deserialize(design.getHeader2().replace("%player%", player.getDisplayName()).replace("%prefix%", prefix).replace("%ping%", String.valueOf(ping)).replace("%registered%", registered).replace("%servername%", serverName));
+            Component footer2 = MiniMessage.miniMessage().deserialize(design.getFooter2().replace("%player%", player.getDisplayName()).replace("%prefix%", prefix).replace("%ping%", String.valueOf(ping)).replace("%registered%", registered).replace("%servername%", serverName));
+            Component name2 = MiniMessage.miniMessage().deserialize(design.getPName2().replace("%player%", player.getDisplayName()).replace("%prefix%", prefix).replace("%ping%", String.valueOf(ping)).replace("%registered%", registered).replace("%servername%", serverName));
 
             if(tablist){
                 if(animated){
@@ -61,7 +62,7 @@ public class TabListManager {
                 }
             }
         }else{
-            Bukkit.getConsoleSender().sendMessage(MiniMessage.miniMessage().deserialize("<red>[LuckUtils]<bold>Achtung! Der Prefix der LuckPerms-Gruppe von " + player.getName() + " exestiert nicht. Bitte füge ihn hinzu, um LuckUtils benutzen zu können! Disabling..."));
+            Bukkit.getConsoleSender().sendMessage(MiniMessage.miniMessage().deserialize("<red>[LuckUtils]<bold>Warning! The Prefix of the LuckPerms Group from " + player.getName() + " is null. Please add it to use LuckUtils! Disabling..."));
             Bukkit.getPluginManager().disablePlugin(LuckUtils.getInstance());
         }
     }
@@ -152,7 +153,14 @@ public class TabListManager {
             runnable = new BukkitRunnable() {
                 @Override
                 public void run() {
-                    updateTablist();
+                    for(Player player : Bukkit.getOnlinePlayers()){
+                        try {
+                            update(player, TablistDesign.valueOf(LuckUtils.getInstance().getConfig().getString("Design", "").toUpperCase()));
+                        }catch (IllegalArgumentException e){
+                            Bukkit.getConsoleSender().sendMessage("[LuckUtils] The current Design in the LuckUtils Config is not existing! Available Values: MODERN, CLEAN, ONLY_NAME, STANDARD, CUSTOM - Disabling...");
+                            LuckUtils.getInstance().getServer().getPluginManager().disablePlugin(LuckUtils.getInstance());
+                        }
+                    }
                 }
             };
             BukkitTask bukkitTask = runnable.runTaskTimer(LuckUtils.getInstance(), 0, LuckUtils.getInstance().getConfig().getInt("Repeat"));
@@ -210,6 +218,7 @@ public class TabListManager {
                 }
             } else {
                 Bukkit.getConsoleSender().sendMessage("[LuckUtils] LuckPerms group not found: " + groupName);
+                createGroupTeams();
             }
         } else {
             Bukkit.getConsoleSender().sendMessage("[LuckUtils] LuckPerms not found, unable to create group team. Disabling...");
