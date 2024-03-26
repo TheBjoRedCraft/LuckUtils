@@ -192,11 +192,13 @@ public class TabListManager {
         if (luckPerms != null) {
             for (Group group : luckPerms.getGroupManager().getLoadedGroups()) {
                 String groupName = group.getDisplayName();
+                String prefix = group.getCachedData().getMetaData().getPrefix();
                 if (group.getDisplayName() != null) {
                     Team team = scoreboard.getTeam(groupName);
                     if (team == null) {
                         team = scoreboard.registerNewTeam(groupName);
                         team.setDisplayName(groupName);
+                        team.prefix(MiniMessage.miniMessage().deserialize(prefix));
                     }
                 }else{
                     Bukkit.getConsoleSender().sendMessage("[LuckUtils] Der Displayname aller LuckPerms - Gruppen muss exestieren!");
@@ -210,11 +212,13 @@ public class TabListManager {
         LuckPerms luckPerms = LuckPermsProvider.get();
         if (luckPerms != null) {
             Group group = luckPerms.getGroupManager().getGroup(groupName);
+            String prefix = group.getCachedData().getMetaData().getPrefix();
             if (group != null) {
                 Team team = scoreboard.getTeam(groupName);
                 if (team == null) {
                     team = scoreboard.registerNewTeam(groupName);
                     team.setDisplayName(groupName);
+                    team.prefix(MiniMessage.miniMessage().deserialize(prefix));
                 }
             } else {
                 Bukkit.getConsoleSender().sendMessage("[LuckUtils] LuckPerms group not found: " + groupName);
