@@ -9,186 +9,89 @@ import net.luckperms.api.model.group.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
+
+import java.util.List;
 
 
 @SuppressWarnings("UnreachableCode")
 public class TabListManager {
-    public static Boolean first;
     private static final Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+    public static List<String> headers;
+    public static List<String> footers;
+    public static int headerIndex = 0;
+    public static int footerIndex = 0;
 
-    public static void setupTablist() {
-        createGroupTeams();
-        first = true;
+    public void start(){
+        headers = LuckUtils.getInstance().getConfig().getStringList("tablist.headers");
+        footers = LuckUtils.getInstance().getConfig().getStringList("tablist.footers");
 
-    }
-    public static void update(Player player, TablistDesign design){
-        int ping = player.getPing();
-        boolean isregistered = player.hasPermission(LuckUtils.getInstance().getConfig().getString("RegisteredPermisson", ""));
-        boolean animated = LuckUtils.getInstance().getConfig().getBoolean("AnimatedTablist");
-        boolean tablist = LuckUtils.getInstance().getConfig().getBoolean("LuckUtilsTablistEnabled");
+        if (headers.isEmpty() || footers.isEmpty()) {
+            Bukkit.getConsoleSender().sendMessage(MiniMessage.miniMessage().deserialize("<red>[LuckUtils]<bold>Warning! Header or/and Footer list is empty!"));
+            return;
+        }
 
-        String registered = isregistered ? LuckUtils.getInstance().getConfig().getString("RegisteredFormatOn", "") : LuckUtils.getInstance().getConfig().getString("RegisteredFormatOff", "");
-        String prefix = LuckPermsProvider.get().getPlayerAdapter(Player.class).getUser(player).getCachedData().getMetaData().getPrefix();
-        String serverName = LuckUtils.getInstance().getConfig().getString("ServerName", "");
+        new BukkitRunnable() {
+            int count = 0;
 
-        assignPlayersToTeams();
+            @Override
+            public void run() {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    if(count >= LuckUtils.getInstance().getConfig().getInt("SwitchTabList")){
+                        count = 0;
+                        updateTablist(player);
 
-        if(prefix != null) {
-            Component header = MiniMessage.miniMessage().deserialize(design.getHeader().replace("%player%", player.getDisplayName()).replace("%prefix%", prefix).replace("%ping%", String.valueOf(ping)).replace("%registered%", registered).replace("%servername%", serverName));
-            Component footer = MiniMessage.miniMessage().deserialize(design.getFooter().replace("%player%", player.getDisplayName()).replace("%prefix%", prefix).replace("%ping%", String.valueOf(ping)).replace("%registered%", registered).replace("%servername%", serverName));
-            Component name = MiniMessage.miniMessage().deserialize(design.getPName().replace("%player%", player.getDisplayName()).replace("%prefix%", prefix).replace("%ping%", String.valueOf(ping)).replace("%registered%", registered).replace("%servername%", serverName));
-
-            Component header2 = MiniMessage.miniMessage().deserialize(design.getHeader2().replace("%player%", player.getDisplayName()).replace("%prefix%", prefix).replace("%ping%", String.valueOf(ping)).replace("%registered%", registered).replace("%servername%", serverName));
-            Component footer2 = MiniMessage.miniMessage().deserialize(design.getFooter2().replace("%player%", player.getDisplayName()).replace("%prefix%", prefix).replace("%ping%", String.valueOf(ping)).replace("%registered%", registered).replace("%servername%", serverName));
-            Component name2 = MiniMessage.miniMessage().deserialize(design.getPName2().replace("%player%", player.getDisplayName()).replace("%prefix%", prefix).replace("%ping%", String.valueOf(ping)).replace("%registered%", registered).replace("%servername%", serverName));
-
-            if(tablist){
-                if(animated){
-                    if(first){
-                        player.sendPlayerListHeader(header);
-                        player.sendPlayerListFooter(footer);
-                        player.playerListName(name);
-                    }else{
-                        player.sendPlayerListHeader(header2);
-                        player.sendPlayerListFooter(footer2);
-                        player.playerListName(name2);
+                        headerIndex = (headerIndex + 1) % headers.size();
+                        footerIndex = (footerIndex + 1) % footers.size();
                     }
-                }else{
-                    player.sendPlayerListHeader(header);
-                    player.sendPlayerListFooter(footer);
-                    player.playerListName(name);
+                    updateName(player);
+                    assignPlayersToTeams();
                 }
+                count ++;
             }
-        }else{
+        }.runTaskTimer(LuckUtils.getInstance(), 0, 5);
+    }
+
+    public void updateTablist(Player player) {
+        boolean tablist = LuckUtils.getInstance().getConfig().getBoolean("LuckUtilsTablistEnabled");
+        String prefix = LuckPermsProvider.get().getPlayerAdapter(Player.class).getUser(player).getCachedData().getMetaData().getPrefix();
+
+        if (prefix != null) {
+            String headerTemplate = headers.get(headerIndex);
+            String footerTemplate = footers.get(footerIndex);
+
+            Component header = MiniMessage.miniMessage().deserialize(LuckUtils.replacePlaceHolder(headerTemplate, player));
+            Component footer = MiniMessage.miniMessage().deserialize(LuckUtils.replacePlaceHolder(footerTemplate, player));
+
+            if (tablist) {
+                player.sendPlayerListHeader(header);
+                player.sendPlayerListFooter(footer);
+            }
+        } else {
             Bukkit.getConsoleSender().sendMessage(MiniMessage.miniMessage().deserialize("<red>[LuckUtils]<bold>Warning! The Prefix of the LuckPerms Group from " + player.getName() + " is null. Please add it to use LuckUtils! Disabling..."));
             Bukkit.getPluginManager().disablePlugin(LuckUtils.getInstance());
         }
     }
-    @Deprecated
-    public static void updateTablist() {
-        assignPlayersToTeams();
+    public void updateName(Player player){
+        boolean tablist = LuckUtils.getInstance().getConfig().getBoolean("LuckUtilsTablistEnabled");
+        String prefix = LuckPermsProvider.get().getPlayerAdapter(Player.class).getUser(player).getCachedData().getMetaData().getPrefix();
 
-        for (Player player : Bukkit.getOnlinePlayers()) {
+        if (prefix != null) {
+            String nameTemplate = LuckUtils.getInstance().getConfig().getString("TablistName", "");
 
-            String prefix = LuckPermsProvider.get().getPlayerAdapter(Player.class).getUser(player).getCachedData().getMetaData().getPrefix();
+            Component name = MiniMessage.miniMessage().deserialize(LuckUtils.replacePlaceHolder(nameTemplate, player));
 
-            boolean isregistered = player.hasPermission(LuckUtils.getInstance().getConfig().getString("RegisteredPermisson", ""));
-            String registered = isregistered ? LuckUtils.getInstance().getConfig().getString("RegisteredFormatOn", "") : LuckUtils.getInstance().getConfig().getString("RegisteredFormatOff", "");
-
-
-            boolean animated = LuckUtils.getInstance().getConfig().getBoolean("AnimatedTablist");
-
-            if (prefix != null) {
-                if (animated) {
-                    if (first) {
-                        String HeaderWithName = LuckUtils.getInstance().getConfig().getString("FirstTablistHeader", "").replace("%player%", player.getName());
-                        String HeaderWithPrefix = HeaderWithName.replace("%prefix%", prefix);
-                        String HeaderWithRegistered = HeaderWithPrefix.replace("%registered%", registered);
-
-                        player.sendPlayerListHeader(MiniMessage.miniMessage().deserialize(HeaderWithRegistered));
-
-                        String PlayerListNameWithName = LuckUtils.getInstance().getConfig().getString("FirstTablistPlayerName", "").replace("%player%", player.getName());
-                        String PlayerListNameWithPrefix = PlayerListNameWithName.replace("%prefix%", prefix);
-                        String PlayerListNameWithRegistered = PlayerListNameWithPrefix.replace("%registered%", registered);
-
-                        player.playerListName(MiniMessage.miniMessage().deserialize(PlayerListNameWithRegistered));
-
-                        String FooterWithName = LuckUtils.getInstance().getConfig().getString("FirstTablistFooter", "").replace("%player%", player.getName());
-                        String FooterWithPrefix = FooterWithName.replace("%prefix%", prefix);
-                        String FooterWithRegistered = FooterWithPrefix.replace("%registered%", registered);
-
-                        player.sendPlayerListFooter(MiniMessage.miniMessage().deserialize(FooterWithRegistered));
-                    } else {
-                        String HeaderWithName = LuckUtils.getInstance().getConfig().getString("SecondTablistHeader", "").replace("%player%", player.getName());
-                        String HeaderWithPrefix = HeaderWithName.replace("%prefix%", prefix);
-                        String HeaderWithRegistered = HeaderWithPrefix.replace("%registered%", registered);
-
-                        player.sendPlayerListHeader(MiniMessage.miniMessage().deserialize(HeaderWithRegistered));
-
-                        String PlayerListNameWithName = LuckUtils.getInstance().getConfig().getString("SecondTablistPlayerName", "").replace("%player%", player.getName());
-                        String PlayerListNameWithPrefix = PlayerListNameWithName.replace("%prefix%", prefix);
-                        String PlayerListNameWithRegistered = PlayerListNameWithPrefix.replace("%registered%", registered);
-
-                        player.playerListName(MiniMessage.miniMessage().deserialize(PlayerListNameWithRegistered));
-
-                        String FooterWithName = LuckUtils.getInstance().getConfig().getString("SecondTablistFooter", "").replace("%player%", player.getName());
-                        String FooterWithPrefix = FooterWithName.replace("%prefix%", prefix);
-                        String FooterWithRegistered = FooterWithPrefix.replace("%registered%", registered);
-
-                        player.sendPlayerListFooter(MiniMessage.miniMessage().deserialize(FooterWithRegistered));
-                    }
-                } else {
-                    String HeaderWithName = LuckUtils.getInstance().getConfig().getString("FirstTablistHeader", "").replace("%player%", player.getName());
-                    String HeaderWithPrefix = HeaderWithName.replace("%prefix%", prefix);
-                    String HeaderWithRegistered = HeaderWithPrefix.replace("%registered%", registered);
-
-                    player.sendPlayerListHeader(MiniMessage.miniMessage().deserialize(HeaderWithRegistered));
-
-                    String PlayerListNameWithName = LuckUtils.getInstance().getConfig().getString("FirstTablistPlayerName", "").replace("%player%", player.getName());
-                    String PlayerListNameWithPrefix = PlayerListNameWithName.replace("%prefix%", prefix);
-                    String PlayerListNameWithRegistered = PlayerListNameWithPrefix.replace("%registered%", registered);
-
-                    player.playerListName(MiniMessage.miniMessage().deserialize(PlayerListNameWithRegistered));
-
-                    String FooterWithName = LuckUtils.getInstance().getConfig().getString("FirstTablistFooter", "").replace("%player%", player.getName());
-                    String FooterWithPrefix = FooterWithName.replace("%prefix%", prefix);
-                    String FooterWithRegistered = FooterWithPrefix.replace("%registered%", registered);
-
-                    player.sendPlayerListFooter(MiniMessage.miniMessage().deserialize(FooterWithRegistered));
-                }
-            } else {
-                Bukkit.getConsoleSender().sendMessage("[LuckUtils] Der Prefix der LuckPerms - Gruppe von " + player.getName() + " exestiert nicht, bitte erstelle eine LuckPerms-Gruppe mit Prefix um LuckUtils benutzten zu können! Disabling...");
-                LuckUtils.getInstance().getServer().getPluginManager().disablePlugin(LuckUtils.getInstance());
+            if (tablist) {
+                player.playerListName(name);
             }
+        } else {
+            Bukkit.getConsoleSender().sendMessage(MiniMessage.miniMessage().deserialize("<red>[LuckUtils]<bold>Warning! The Prefix of the LuckPerms Group from " + player.getName() + " is null. Please add it to use LuckUtils! Disabling..."));
+            Bukkit.getPluginManager().disablePlugin(LuckUtils.getInstance());
         }
     }
 
-    private static BukkitRunnable runnable;
-
-    public static void startTabupdate() {
-        try {
-
-            runnable = new BukkitRunnable() {
-                @Override
-                public void run() {
-                    for(Player player : Bukkit.getOnlinePlayers()){
-                        try {
-                            update(player, TablistDesign.valueOf(LuckUtils.getInstance().getConfig().getString("Design", "").toUpperCase()));
-                        }catch (IllegalArgumentException e){
-                            Bukkit.getConsoleSender().sendMessage("[LuckUtils] The current Design in the LuckUtils Config is not existing! Available Values: MODERN, CLEAN, ONLY_NAME, STANDARD, CUSTOM - Disabling...");
-                            LuckUtils.getInstance().getServer().getPluginManager().disablePlugin(LuckUtils.getInstance());
-                        }
-                    }
-                }
-            };
-            BukkitTask bukkitTask = runnable.runTaskTimer(LuckUtils.getInstance(), 0, LuckUtils.getInstance().getConfig().getInt("Repeat"));
-
-            BukkitRunnable runnableOther = new BukkitRunnable() {
-                @Override
-                public void run() {
-                    first = !first;
-                }
-            };
-            BukkitTask bukkitTaskOther = runnableOther.runTaskTimer(LuckUtils.getInstance(), 0, LuckUtils.getInstance().getConfig().getInt("SwitchTabList"));
-        } catch (NumberFormatException exception) {
-            Bukkit.getConsoleSender().sendMessage(exception.getMessage());
-        }
-    }
-
-    public static void stopTabListUpdate() {
-        try {
-            if (!runnable.isCancelled()) {
-                runnable.cancel();
-            }
-        } catch (Exception exception) {
-            Bukkit.getConsoleSender().sendMessage("ERROR in stopTabUpdate");
-        }
-    }
-
-    private static void createGroupTeams() {
+    public void createGroupTeams() {
         LuckPerms luckPerms = LuckPermsProvider.get();
         if (luckPerms != null) {
             for (Group group : luckPerms.getGroupManager().getLoadedGroups()) {
@@ -209,7 +112,7 @@ public class TabListManager {
             Bukkit.getConsoleSender().sendMessage("[LuckUtils] LuckPerms not found, unable to create group teams.");
         }
     }
-    private static void createGroupTeam(String groupName) {
+    public void createGroupTeam(String groupName) {
         LuckPerms luckPerms = LuckPermsProvider.get();
         if (luckPerms != null) {
             Group group = luckPerms.getGroupManager().getGroup(groupName);
@@ -231,7 +134,7 @@ public class TabListManager {
         }
     }
 
-    private static void assignPlayersToTeams() {
+    public void assignPlayersToTeams() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             Group group = LuckPermsProvider.get().getGroupManager().getGroup(LuckPermsProvider.get().getPlayerAdapter(Player.class).getUser(player).getPrimaryGroup());
 

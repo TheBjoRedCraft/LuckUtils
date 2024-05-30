@@ -3,7 +3,6 @@ package de.thebjoredcraft.luckutils;
 import de.thebjoredcraft.luckutils.chat.ChatManager;
 import de.thebjoredcraft.luckutils.tab.TabListManager;
 import de.thebjoredcraft.luckutils.utils.EventManager;
-import de.thebjoredcraft.luckutils.utils.Metrics;
 import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,36 +16,30 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public final class LuckUtils extends JavaPlugin {
+    private static final int RESOURCE_ID = 112818;
+    private static TabListManager tabListManager;
+    public static String currentVersion;
     private static LuckUtils instance;
+
 
     @Override
     public void onLoad() {
         instance = this;
     }
-    public static LuckUtils getInstance() {
-        return instance;
-    }
-    private static final String RESOURCE_LINK = "https://api.spigotmc.org/legacy/update.php?resource=112818";
-    private static final int RESOURCE_ID = 112818;
-    public static String currentVersion;
 
     @Override
     public void onEnable() {
-        TabListManager.setupTablist();
         currentVersion = getDescription().getVersion();
+        tabListManager = new TabListManager();
 
         getServer().getPluginManager().registerEvents(new ChatManager(), this);
         getServer().getPluginManager().registerEvents(new EventManager(), this);
         saveDefaultConfig();
 
 
-        getLogger().info(ChatColor.GREEN + "(LU) LuckUtils wird geladen!");
         if(getInstance().getConfig().getBoolean("LuckUtilsTablistEnabled")) {
-            if (getInstance().getConfig().getBoolean("UpdateTabList")) {
-                TabListManager.startTabupdate();
-            } else {
-                getLogger().info("(LU) §eAutoTablistUpdate is not enabled!");
-            }
+            LuckUtils.getTabListManager().start();
+            LuckUtils.getTabListManager().createGroupTeams();
         }
 
         if (isUpdateAvailable()) {
@@ -54,15 +47,10 @@ public final class LuckUtils extends JavaPlugin {
         } else {
             getLogger().info("The Plugin is up-to-date");
         }
-        Metrics metrics = new Metrics(this, RESOURCE_ID);
-
     }
 
     @Override
     public void onDisable() {
-        if(getInstance().getConfig().getBoolean("UpdateTabList")){
-            TabListManager.stopTabListUpdate();
-        }
         getLogger().info(ChatColor.RED + "(LU) LuckUtils wird gestoppt!");
         // Plugin shutdown logic
     }
@@ -96,6 +84,14 @@ public final class LuckUtils extends JavaPlugin {
                 .replace("%registered%", registered)
                 .replace("%servername%", serverName)
                 .replace("%ip%", Bukkit.getIp())
-                .replace("%online_players%", String.valueOf(Bukkit.getOnlinePlayers().size()));
+                .replace("%online_players%", String.valueOf(Bukkit.getOnlinePlayers().size()))
+                .replace("%max_players%", String.valueOf(Bukkit.getMaxPlayers()));
+    }
+
+    public static TabListManager getTabListManager() {
+        return tabListManager;
+    }
+    public static LuckUtils getInstance() {
+        return instance;
     }
 }

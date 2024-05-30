@@ -5,26 +5,78 @@
 #Placeholder: %player% %prefix% %ping% %registered% - Chat: %message%
 
 #------------------------[Main]------------------------#
-ServerName: "<red>Mein Server</red>"
+ServerName: "<red>A cool Server</red>"
 
 #----------------------[Tablist]-----------------------#
 LuckUtilsTablistEnabled: true
 UpdateTabList: true
 
-Design: "STANDARD" # Designs: STANDARD, MODERN, ONLY_NAME (Minecraft Style), CLEAN, CUSTOM (Custom = The content below)
-
-TablistHeader: "<color:#78ffb5>DEIN SERVER"
 TablistName: "%prefix% <dark_gray>|</dark_gray> %player% %registered%"
-TablistFooter: "<color:#ff0004>LuckUtils v11.0 - by TheBjoRedCraft"
 
-AnimatedTablist: true
 
-AnimatedTablistHeader: "<color:#78ffb5>DEIN SERVER"
-AnimatedTablistName: "%prefix% <dark_gray>|</dark_gray> %player% %registered%"
-AnimatedTablistFooter: "<color:#ff0004>LuckUtils v11.0 - by TheBjoRedCraft"
+tablist:
+  headers:
+    - "-\n <gray>Welcome on the Server!"
+    - "--\n <gray>Welcome on the Server!"
+    - "---\n <gray>Welcome on the Server!"
+    - "----\n <gray>Welcome on the Server!"
+    - "-----\n <gray>Welcome on the Server!"
+    - "------\n <gray>Welcome on the Server!"
+    - "-------\n <gray>Welcome on the Server!"
+    - "--------\n <gray>Welcome on the Server!"
+    - "---------\n <gray>Welcome on the Server!"
+    - "----------\n <gray>Welcome on the Server!"
+    - "-----------\n <gray>Welcome on the Server!"
+    - "-------------\n <gray>Welcome on the Server!"
+    - "--------------\n <gray>Welcome on the Server!"
+    - "---------------\n <gray>Welcome on the Server!"
+    - "----------------\n Your Rank: %prefix%"
+    - "---------------\n Your Rank: %prefix%"
+    - "--------------\n Your Rank: %prefix%"
+    - "-------------\n Your Rank: %prefix%"
+    - "-----------\n Your Rank: %prefix%"
+    - "----------\n Your Rank: %prefix%"
+    - "---------\n Your Rank: %prefix%"
+    - "--------\n Your Rank: %prefix%"
+    - "-------\n Your Rank: %prefix%"
+    - "------\n Your Rank: %prefix%"
+    - "-----\n Your Rank: %prefix%"
+    - "----\n Your Rank: %prefix%"
+    - "---\n Your Rank: %prefix%"
+    - "--\n Your Rank: %prefix%"
+    - "-\n Your Rank: %prefix%"
+  footers:
+    - "<yellow>%online_players%<gray>/<yellow>%max_players%\n-"
+    - "<yellow>%online_players%<gray>/<yellow>%max_players%\n--"
+    - "<yellow>%online_players%<gray>/<yellow>%max_players%\n---"
+    - "<yellow>%online_players%<gray>/<yellow>%max_players%\n----"
+    - "<yellow>%online_players%<gray>/<yellow>%max_players%\n-----"
+    - "<yellow>%online_players%<gray>/<yellow>%max_players%\n------"
+    - "<yellow>%online_players%<gray>/<yellow>%max_players%\n-------"
+    - "<yellow>%online_players%<gray>/<yellow>%max_players%\n--------"
+    - "<yellow>%online_players%<gray>/<yellow>%max_players%\n---------"
+    - "<yellow>%online_players%<gray>/<yellow>%max_players%\n----------"
+    - "<yellow>%online_players%<gray>/<yellow>%max_players%\n-----------"
+    - "<yellow>%online_players%<gray>/<yellow>%max_players%\n-------------"
+    - "<yellow>%online_players%<gray>/<yellow>%max_players%\n--------------"
+    - "<yellow>%online_players%<gray>/<yellow>%max_players%\n---------------"
+    - "<yellow>Your Ping: %ping% <gray>- <yellow>Server: %servername%\n----------------"
+    - "<yellow>Your Ping: %ping% <gray>- <yellow>Server: %servername%\n---------------"
+    - "<yellow>Your Ping: %ping% <gray>- <yellow>Server: %servername%\n--------------"
+    - "<yellow>Your Ping: %ping% <gray>- <yellow>Server: %servername%\n-------------"
+    - "<yellow>Your Ping: %ping% <gray>- <yellow>Server: %servername%\n-----------"
+    - "<yellow>Your Ping: %ping% <gray>- <yellow>Server: %servername%\n----------"
+    - "<yellow>Your Ping: %ping% <gray>- <yellow>Server: %servername%\n---------"
+    - "<yellow>Your Ping: %ping% <gray>- <yellow>Server: %servername%\n--------"
+    - "<yellow>Your Ping: %ping% <gray>- <yellow>Server: %servername%\n-------"
+    - "<yellow>Your Ping: %ping% <gray>- <yellow>Server: %servername%\n------"
+    - "<yellow>Your Ping: %ping% <gray>- <yellow>Server: %servername%\n-----"
+    - "<yellow>Your Ping: %ping% <gray>- <yellow>Server: %servername%\n----"
+    - "<yellow>Your Ping: %ping% <gray>- <yellow>Server: %servername%\n---"
+    - "<yellow>Your Ping: %ping% <gray>- <yellow>Server: %servername%\n--"
+    - "<yellow>Your Ping: %ping% <gray>- <yellow>Server: %servername%\n-"
 
-SwitchTabList: 600 # 600 Ticks = 30 seconds
-Repeat: 20 # 20 Ticks = every second
+SwitchTabList: 3 # little less than 1 sec
 
 #------------------------[Chat]------------------------#
 LuckUtilsChatEnabled: true
