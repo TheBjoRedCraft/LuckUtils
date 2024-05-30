@@ -4,7 +4,10 @@ import de.thebjoredcraft.luckutils.chat.ChatManager;
 import de.thebjoredcraft.luckutils.tab.TabListManager;
 import de.thebjoredcraft.luckutils.utils.EventManager;
 import de.thebjoredcraft.luckutils.utils.Metrics;
+import net.luckperms.api.LuckPermsProvider;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.BufferedReader;
@@ -79,5 +82,20 @@ public final class LuckUtils extends JavaPlugin {
             LuckUtils.getInstance().getLogger().warning("Fehler beim Überprüfen auf Updates: " + e.getMessage());
             return false;
         }
+    }
+    public static String replacePlaceHolder(String string, Player player){
+        boolean isregistered = player.hasPermission(LuckUtils.getInstance().getConfig().getString("RegisteredPermisson", ""));
+
+        String prefix = LuckPermsProvider.get().getPlayerAdapter(Player.class).getUser(player).getCachedData().getMetaData().getPrefix();
+        String registered = isregistered ? LuckUtils.getInstance().getConfig().getString("RegisteredFormatOn", "") : LuckUtils.getInstance().getConfig().getString("RegisteredFormatOff", "");
+        String serverName = LuckUtils.getInstance().getConfig().getString("ServerName", "");
+
+        return string.replace("%player%", player.getName())
+                .replace("%prefix%", prefix)
+                .replace("%ping%", String.valueOf(player.getPing()))
+                .replace("%registered%", registered)
+                .replace("%servername%", serverName)
+                .replace("%ip%", Bukkit.getIp())
+                .replace("%online_players%", String.valueOf(Bukkit.getOnlinePlayers().size()));
     }
 }

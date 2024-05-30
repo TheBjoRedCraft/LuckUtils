@@ -14,6 +14,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 
+@SuppressWarnings("UnreachableCode")
 public class TabListManager {
     public static Boolean first;
     private static final Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();

@@ -2,9 +2,7 @@ package de.thebjoredcraft.luckutils.utils;
 
 import de.thebjoredcraft.luckutils.LuckUtils;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
-import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
