@@ -102,7 +102,7 @@ public class TabListManager {
                     if (team == null) {
                         team = scoreboard.registerNewTeam(groupName);
                         team.setDisplayName(groupName);
-                        team.prefix(MiniMessage.miniMessage().deserialize(prefix));
+                        team.prefix(MiniMessage.miniMessage().deserialize(prefix + "<gray> | "));
                     }
                 }else{
                     Bukkit.getConsoleSender().sendMessage("[LuckUtils] Der Displayname aller LuckPerms - Gruppen muss exestieren!");
@@ -122,7 +122,7 @@ public class TabListManager {
                 if (team == null) {
                     team = scoreboard.registerNewTeam(groupName);
                     team.setDisplayName(groupName);
-                    team.prefix(MiniMessage.miniMessage().deserialize(prefix));
+                    team.prefix(MiniMessage.miniMessage().deserialize(prefix + "<gray> | "));
                 }
             } else {
                 Bukkit.getConsoleSender().sendMessage("[LuckUtils] LuckPerms group not found: " + groupName);
@@ -148,7 +148,7 @@ public class TabListManager {
                     team.addPlayer(player);
                 } else {
                     Bukkit.getConsoleSender().sendMessage("[LuckUtils] Team " + group.getDisplayName() + " does not exist, creating....");
-                    createGroupTeam(group.getDisplayName());
+                    createGroupTeams();
 
                 }
             }else{
