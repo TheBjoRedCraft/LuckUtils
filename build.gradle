@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'de.thebjoredcraft'
-version = '12.1'
+version = '12.2'
 
 repositories {
     mavenCentral()

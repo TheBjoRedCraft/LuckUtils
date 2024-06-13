@@ -19,15 +19,16 @@ public class ChatManager implements Listener {
 
             User user = LuckPermsProvider.get().getPlayerAdapter(Player.class).getUser(player);
             String prefix = user.getCachedData().getMetaData().getPrefix();
-            if (prefix != null) {
+            String suffix = user.getCachedData().getMetaData().getSuffix();
+            if (prefix != null && suffix != null) {
 
                 boolean isregistered = player.hasPermission(LuckUtils.getInstance().getConfig().getString("RegisteredPermission", ""));
                 String registered = isregistered ? LuckUtils.getInstance().getConfig().getString("RegisteredFormatOn", "") : LuckUtils.getInstance().getConfig().getString("RegisteredFormatOff", "");
-                String message = LuckUtils.getInstance().getConfig().getString("ChatFormat", "").replace("%player%", player.getName()).replace("%prefix%", prefix).replace("%message%", event.getMessage()).replace("%registered%", registered);
+                String message = LuckUtils.getInstance().getConfig().getString("ChatFormat", "").replace("%player%", player.getName()).replace("%prefix%", prefix).replace("%message%", event.getMessage()).replace("%registered%", registered).replace("%suffix%", suffix);
 
                 Bukkit.broadcast(MiniMessage.miniMessage().deserialize(message));
             } else {
-                player.sendMessage("[LuckUtils] Der Prefix ist null, bitte erstelle eine LuckPerms-Gruppe mit Prefix um LuckUtils benutzten zu können! Disabling...");
+                player.sendMessage("[LuckUtils] Der Prefix ODER Suffix ist null, bitte erstelle eine LuckPerms-Gruppe mit Prefix um LuckUtils benutzten zu können! Disabling...");
                 LuckUtils.getInstance().getServer().getPluginManager().disablePlugin(LuckUtils.getInstance());
             }
         }

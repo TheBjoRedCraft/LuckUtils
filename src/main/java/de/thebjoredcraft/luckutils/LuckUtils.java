@@ -75,11 +75,13 @@ public final class LuckUtils extends JavaPlugin {
         boolean isregistered = player.hasPermission(LuckUtils.getInstance().getConfig().getString("RegisteredPermisson", ""));
 
         String prefix = LuckPermsProvider.get().getPlayerAdapter(Player.class).getUser(player).getCachedData().getMetaData().getPrefix();
+        String suffix = LuckPermsProvider.get().getPlayerAdapter(Player.class).getUser(player).getCachedData().getMetaData().getSuffix();
         String registered = isregistered ? LuckUtils.getInstance().getConfig().getString("RegisteredFormatOn", "") : LuckUtils.getInstance().getConfig().getString("RegisteredFormatOff", "");
         String serverName = LuckUtils.getInstance().getConfig().getString("ServerName", "");
 
         return string.replace("%player%", player.getName())
                 .replace("%prefix%", prefix)
+                .replace("%suffix%", suffix)
                 .replace("%ping%", String.valueOf(player.getPing()))
                 .replace("%registered%", registered)
                 .replace("%servername%", serverName)
